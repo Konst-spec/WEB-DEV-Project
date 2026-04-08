@@ -2,7 +2,7 @@
 ## KBTU Professor Rewiew Platform
 
 Team: 
-Bolotnov Konstantin
+Bolotnov Konstantin\n
 Kabirov Ravil
 
 
