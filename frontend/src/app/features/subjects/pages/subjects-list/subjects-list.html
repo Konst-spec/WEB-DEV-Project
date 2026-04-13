@@ -1,0 +1,17 @@
+<h1>Subjects</h1>
+
+@if (subjects$ | async; as subjects) {
+
+  @if (subjects.length === 0) {
+    <p>No subjects found</p>
+  }
+
+  @for (subject of subjects; track subject.id) {
+    <div>
+      <a [routerLink]="['/subjects', subject.id]">
+        {{ subject.name }}
+      </a>
+    </div>
+  }
+
+}
