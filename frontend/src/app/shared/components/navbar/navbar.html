@@ -1,13 +1,23 @@
-<nav style="display:flex; gap:15px; padding:10px; background:#eee;">
+<nav class="navbar">
+  <div class="navbar-container">
+    <a routerLink="/" class="navbar-brand">MyApp</a>
 
-      <a routerLink="/home" routerLinkActive="active">Home</a>
-      <a routerLink="/subjects" routerLinkActive="active">Subjects</a>
-      <a routerLink="/professors" routerLinkActive="active">Professors</a>
-      <a routerLink="/wishlist" routerLinkActive="active">Wishlist</a>
+    <div class="navbar-menu">
+      <a routerLink="/home" routerLinkActive="active" class="nav-link">Home</a>
+      <a routerLink="/subjects" routerLinkActive="active" class="nav-link">Subjects</a>
+      <a routerLink="/professors" routerLinkActive="active" class="nav-link">Professors</a>
+      <a routerLink="/wishlist" routerLinkActive="active" class="nav-link">Wishlist</a>
+    </div>
 
-      <span style="margin-left:auto"></span>
-
-      <a routerLink="/login">Login</a>
-      <a routerLink="/register">Register</a>
-
-    </nav>
+    <div class="navbar-auth">
+      @if (!isAuthenticated()) {
+        <a routerLink="/login" routerLinkActive="active" class="nav-link">Login</a>
+        <a routerLink="/register" routerLinkActive="active" class="nav-link nav-link-highlight">Register</a>
+      }
+      
+      @if (isAuthenticated()) {
+        <button (click)="logout()" class="nav-link logout-btn">Logout</button>
+      }
+    </div>
+  </div>
+</nav>
