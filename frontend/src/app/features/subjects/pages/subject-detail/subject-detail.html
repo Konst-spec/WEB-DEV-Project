@@ -1,48 +1,59 @@
-@if (loading()) {
-  <div class="container">
+<div class="page">
+
+  @if (loading()) {
     <div class="skeleton-header"></div>
-    <div class="skeleton-grid">
-      @for (i of [1,2,3,4]; track i) {
-        <div class="skeleton-card"></div>
+    <div class="skeleton-list">
+      @for (i of [1,2,3]; track i) {
+        <div class="skeleton skeleton--card"></div>
       }
     </div>
-  </div>
-} @else if (error() || !subject()) {
-  <div class="container error-state">
-    <p>Subject not found.</p>
-    <a routerLink="/subjects">← Back to subjects</a>
-  </div>
-} @else {
-  <div class="container">
-    <a routerLink="/subjects" class="back-link">← All Subjects</a>
 
-    <div class="subject-header">
-      <h1 class="subject-name">{{ subject()!.name }}</h1>
-      <span class="prof-count">{{ subject()!.professors.length }} professors</span>
+  } @else if (notFound()) {
+    <div class="empty">
+      <span>😕</span>
+      <p>Subject not found.</p>
+      <a routerLink="/subjects" class="btn-back">← Back to Subjects</a>
     </div>
 
-    <h2 class="section-title">Professors teaching this subject</h2>
+  } @else if (subject()) {
 
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+      <a routerLink="/subjects" class="breadcrumb-link">Subjects</a>
+      <span class="breadcrumb-sep">›</span>
+      <span class="breadcrumb-current">{{ subject()!.name }}</span>
+    </div>
+
+    <!-- Subject Header -->
+    <div class="subject-header">
+      <div class="subject-icon">📚</div>
+      <div>
+        <h1 class="subject-title">{{ subject()!.name }}</h1>
+        <p class="subject-meta">{{ subject()!.professors.length }} professor{{ subject()!.professors.length !== 1 ? 's' : '' }} teaching this subject</p>
+      </div>
+    </div>
+
+    <!-- Professors -->
     @if (subject()!.professors.length === 0) {
-      <p class="empty">No professors assigned yet.</p>
+      <div class="empty">
+        <span>👨‍🏫</span>
+        <p>No professors assigned to this subject yet.</p>
+      </div>
     } @else {
-      <div class="professors-list">
+      <h2 class="section-title">Professors</h2>
+      <div class="professors-grid">
         @for (prof of subject()!.professors; track prof.id) {
-          <div class="prof-row">
-            <a [routerLink]="['/professors', prof.id]" class="prof-link">
-              <div class="avatar">{{ prof.name[0] }}</div>
+          <a [routerLink]="['/professors', prof.id]" class="prof-card">
+            <div class="prof-avatar">{{ initials(prof.name) }}</div>
+            <div class="prof-info">
               <span class="prof-name">{{ prof.name }}</span>
-            </a>
-            <button
-              class="wishlist-btn"
-              [class.active]="isWishlisted(prof.id)"
-              (click)="toggleWishlist(prof.id)"
-            >
-              {{ isWishlisted(prof.id) ? '★ Wishlisted' : '☆ Add to Wishlist' }}
-            </button>
-          </div>
+              <span class="prof-hint">View profile & reviews →</span>
+            </div>
+          </a>
         }
       </div>
     }
-  </div>
-}
+
+  }
+
+</div>

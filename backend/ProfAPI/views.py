@@ -93,14 +93,14 @@ class ReviewDetailAPIView(APIView):
     permission_classes = [IsAuthenticated]
     def get_object(self, pk):
         try:
-            return Review.objects.get(id=pk)
+            return Review.objects.get(rev_id=pk)
         except Review.DoesNotExist:
             return None
     
     def get(self, request, pk):
         review = self.get_object(pk)
         if not review:
-            return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"error": "Review not found"}, status=status.HTTP_404_NOT_FOUND)
         serializer = ReviewSerializer(review)
         return Response(serializer.data)
     
@@ -108,7 +108,7 @@ class ReviewDetailAPIView(APIView):
         user = request.user
         review = self.get_object(pk)
         if not review:
-            return Response({"error": "Product not found"}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"error": "Review not found"}, status=status.HTTP_404_NOT_FOUND)
         serializer = ReviewSerializer(review, data=request.data)
         if serializer.is_valid():
             serializer.save()

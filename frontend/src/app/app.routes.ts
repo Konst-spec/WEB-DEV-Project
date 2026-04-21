@@ -10,7 +10,7 @@ export const routes: Routes = [
   { path: 'home', loadComponent: () => import('./features/home/pages/home-page/home-page').then(m => m.HomePage) },
 
   { path: 'subjects', loadComponent: () => import('./features/subjects/pages/subjects-list/subjects-list').then(m => m.SubjectsList) },
-  { path: 'subjects/:id', loadComponent: () => import('./features/subjects/pages/subject-detail/subject-detail').then(m => m.SubjectDetail) },
+  { path: 'subjects/:id', loadComponent: () => import('./features/subjects/pages/subject-detail/subject-detail').then(m => m.SubjectDetailPage) },
 
   { path: 'professors', loadComponent: () => import('./features/professors/pages/professors-list/professors-list').then(m => m.ProfessorsList) },
   { path: 'professors/:id', loadComponent: () => import('./features/professors/pages/professor-detail/professor-detail').then(m => m.ProfessorDetail) },

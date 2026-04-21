@@ -1,38 +1,32 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { CommonModule } from '@angular/common';
-import { SubjectService } from '../../../../core/services/subject';
-import { ProfessorService } from '../../../../core/services/professor';
-import { SubjectCard } from '../../../../shared/components/subject-card/subject-card';
-import { ProfessorCard } from '../../../../shared/components/professor-card/professor-card';
-import { Subject } from '../../../../core/models/subject.model';
-import { Professor } from '../../../../core/models/professor.model';
+import { HttpClient } from '@angular/common/http';
+import { forkJoin } from 'rxjs';
 
 @Component({
   selector: 'app-home-page',
-  standalone: true,
-  imports: [CommonModule, RouterLink, SubjectCard, ProfessorCard],
+  imports: [RouterLink],
   templateUrl: './home-page.html',
   styleUrl: './home-page.css'
 })
 export class HomePage implements OnInit {
-  private subjectService = inject(SubjectService);
-  private professorService = inject(ProfessorService);
+  private http = inject(HttpClient);
 
-  subjects = signal<Subject[]>([]);
-  professors = signal<Professor[]>([]);
-  loadingSubjects = signal(true);
-  loadingProfessors = signal(true);
+  professorsCount = signal(0);
+  subjectsCount = signal(0);
 
   ngOnInit(): void {
-    this.subjectService.getAll().subscribe({
-      next: (data) => { this.subjects.set(data.slice(0, 6)); this.loadingSubjects.set(false); },
-      error: () => this.loadingSubjects.set(false)
-    });
-
-    this.professorService.getAll().subscribe({
-      next: (data) => { this.professors.set(data.slice(0, 6)); this.loadingProfessors.set(false); },
-      error: () => this.loadingProfessors.set(false)
+    forkJoin({
+      professors: this.http.get<any[]>('http://localhost:8000/professors/'),
+      subjects: this.http.get<any[]>('http://localhost:8000/subjects/'),
+    }).subscribe({
+      next: (data) => {
+        this.professorsCount.set(data.professors.length);
+        this.subjectsCount.set(data.subjects.length);
+      },
+      error: (err) => {
+        console.error('Failed to load stats:', err);
+      }
     });
   }
 }

@@ -4,9 +4,5 @@ import { Injectable } from '@angular/core';
   providedIn: 'root',
 })
 export class Wishlist {
-  isWishlisted(subjectId: number, professorId: number): boolean {
-    return this.getWishlist().some(
-      item => item.subjectId === subjectId && item.professorId === professorId
-    );
-  }
+  
 }
