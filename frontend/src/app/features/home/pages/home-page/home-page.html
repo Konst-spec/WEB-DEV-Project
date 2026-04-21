@@ -1,1 +1,165 @@
-<p>home-page works!</p>
+<main class="home-page">
+
+  <section class="hero" id="hero-section">
+    <div class="hero-bg">
+      <div class="hero-shape hero-shape--1"></div>
+      <div class="hero-shape hero-shape--2"></div>
+      <div class="hero-shape hero-shape--3"></div>
+    </div>
+
+    <div class="hero-content">
+      <span class="hero-badge">🎓 KBTU Professor Review Platform</span>
+      <h1 class="hero-title">
+        Find the <span class="hero-title-accent">Best Professors</span><br>
+        for Your Success
+      </h1>
+      <p class="hero-subtitle">
+        Browse subjects, read honest reviews from fellow students,
+        and build your perfect wishlist of preferred professors.
+      </p>
+    
+
+      <div class="hero-stats">
+        <div class="stat">
+          <span class="stat-number">{{ professorsCount() }}</span>
+          <span class="stat-label">Professors</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat">
+          <span class="stat-number">{{ subjectsCount() }}</span>
+          <span class="stat-label">Subjects</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="features" id="features-section">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-badge">Explore</span>
+        <h2 class="section-title">Everything You Need</h2>
+        <p class="section-subtitle">Navigate the platform easily and make informed decisions about your education.</p>
+      </div>
+
+      <div class="features-grid">
+
+        <a routerLink="/subjects" class="feature-card" id="card-subjects">
+          <div class="feature-card-icon feature-card-icon--blue">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H19a1 1 0 0 1 1 1v18a1 1 0 0 1-1 1H6.5a1 1 0 0 1 0-5H20"/></svg>
+          </div>
+          <h3 class="feature-card-title">Subjects</h3>
+          <p class="feature-card-desc">
+            Explore all academic subjects offered at KBTU. Click on any subject to see which professors teach it.
+          </p>
+          <span class="feature-card-link">
+            Browse subjects
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </span>
+        </a>
+
+      
+        <a routerLink="/professors" class="feature-card" id="card-professors">
+          <div class="feature-card-icon feature-card-icon--indigo">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M22 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+          <h3 class="feature-card-title">Professors</h3>
+          <p class="feature-card-desc">
+            View all professors, check their ratings, difficulty scores, and read what students say about them.
+          </p>
+          <span class="feature-card-link">
+            View professors
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </span>
+        </a>
+
+    
+        <a routerLink="/wishlist" class="feature-card" id="card-wishlist">
+          <div class="feature-card-icon feature-card-icon--rose">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"/></svg>
+          </div>
+          <h3 class="feature-card-title">Wishlist</h3>
+          <p class="feature-card-desc">
+            Save your preferred professors for each subject. Compare options and plan the best schedule.
+          </p>
+          <span class="feature-card-link">
+            Open wishlist
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </span>
+        </a>
+
+      </div>
+    </div>
+  </section>
+
+  <section class="how-it-works" id="how-it-works-section">
+    <div class="section-container">
+      <div class="section-header">
+        <span class="section-badge">Guide</span>
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-subtitle">Get started in just a few simple steps.</p>
+      </div>
+
+      <div class="steps-grid">
+        <div class="step-card">
+          <div class="step-number">1</div>
+          <h3 class="step-title">Create an Account</h3>
+          <p class="step-desc">
+            Sign up with your login to unlock all features — leave reviews, build wishlists, and track your preferences.
+          </p>
+        </div>
+
+        <div class="step-connector">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--blue-300)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">2</div>
+          <h3 class="step-title">Browse &amp; Explore</h3>
+          <p class="step-desc">
+            Navigate through subjects and professors. Read detailed reviews, ratings, and difficulty scores from real students.
+          </p>
+        </div>
+
+        <div class="step-connector">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="var(--blue-300)" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+        </div>
+
+        <div class="step-card">
+          <div class="step-number">3</div>
+          <h3 class="step-title">Review &amp; Save</h3>
+          <p class="step-desc">
+            Leave honest reviews for your professors and add your favourites to the wishlist to plan ahead.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section" id="cta-section">
+    <div class="section-container">
+      <div class="cta-card">
+        <div class="cta-content">
+          <h2 class="cta-title">Ready to Get Started?</h2>
+          <p class="cta-desc">Join the KBTU community and help fellow students make better choices.</p>
+          <div class="cta-actions">
+            <a routerLink="/login" class="btn btn-white btn-lg" id="cta-login">Sign In to Your Account</a>
+            <a routerLink="/register" class="btn btn-ghost btn-lg" id="cta-register">Create Free Account</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer" id="main-footer">
+    <div class="section-container">
+      <div class="footer-content">
+        <div class="footer-brand">
+          <span class="brand-icon">🎓</span>
+          <span class="brand-text">KBTU<span class="brand-accent">Review</span></span>
+        </div>
+        <p class="footer-copy">&copy; 2026 KBTU Professor Review Platform. Built by Bolotnov, Kabirov &amp; Abdrakhmanov.</p>
+      </div>
+    </div>
+  </footer>
+
+</main>

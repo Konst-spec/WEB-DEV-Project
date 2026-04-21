@@ -1,6 +1,9 @@
-<nav class="navbar">
+<nav class="navbar" id="main-navbar">
   <div class="navbar-container">
-    <a routerLink="/" class="navbar-brand">MyApp</a>
+    <a routerLink="/" class="navbar-brand">
+      <span class="brand-icon">🎓</span>
+      <span class="brand-text">KBTU<span class="brand-accent">Review</span></span>
+    </a>
 
     <div class="navbar-menu">
       <a routerLink="/home" routerLinkActive="active" class="nav-link">Home</a>
@@ -11,11 +14,12 @@
 
     <div class="navbar-auth">
       @if (!isAuthenticated()) {
-        <a routerLink="/login" routerLinkActive="active" class="nav-link">Login</a>
-        <a routerLink="/register" routerLinkActive="active" class="nav-link nav-link-highlight">Register</a>
+        <a routerLink="/login" routerLinkActive="active" class="nav-link">Log in</a>
+        <a routerLink="/register" routerLinkActive="active" class="nav-link nav-link-highlight">Sign up</a>
       }
-      
+
       @if (isAuthenticated()) {
+        <a routerLink="/profile" routerLinkActive="active" class="nav-link">Profile</a>
         <button (click)="logout()" class="nav-link logout-btn">Logout</button>
       }
     </div>
