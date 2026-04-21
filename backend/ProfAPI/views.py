@@ -52,6 +52,7 @@ def get_subject(request, subj_id):
     data = {
         "id": subject.subj_id,
         "name": subject.name,
+        "description": subject.description,
         "professors": prof_data
     }
     return Response(data)

@@ -27,8 +27,9 @@
     <!-- Subject Header -->
     <div class="subject-header">
       <div class="subject-icon">📚</div>
-      <div>
+      <div class="subject-info-container">
         <h1 class="subject-title">{{ subject()!.name }}</h1>
+        <p class="subject-desc">{{ subject()!.description }}</p>
         <p class="subject-meta">{{ subject()!.professors.length }} professor{{ subject()!.professors.length !== 1 ? 's' : '' }} teaching this subject</p>
       </div>
     </div>

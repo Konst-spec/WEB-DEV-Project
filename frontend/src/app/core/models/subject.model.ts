@@ -7,5 +7,6 @@ export interface Subject {
 export interface SubjectDetail {
   id: number;
   name: string;
+  description: string;
   professors: { id: number; name: string }[];
 }

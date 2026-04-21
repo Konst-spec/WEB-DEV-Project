@@ -44,17 +44,31 @@
   flex-shrink: 0;
 }
 
+.subject-info-container {
+  display: flex;
+  flex-direction: column;
+}
+
 .subject-title {
   font-size: 1.8rem;
   font-weight: 800;
   color: #0f172a;
-  margin: 0 0 6px;
+  margin: 0 0 8px;
+}
+
+.subject-desc {
+  font-size: 1rem;
+  color: #475569;
+  line-height: 1.5;
+  margin: 0 0 12px;
+  max-width: 800px;
 }
 
 .subject-meta {
   font-size: 0.9rem;
   color: #64748b;
   margin: 0;
+  font-weight: 500;
 }
 
 .section-title {

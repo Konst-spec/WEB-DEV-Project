@@ -47,6 +47,8 @@ export class Login {
     this.authService.login(payload).subscribe({
       next: (res) => {
         this.authService.saveTokens(res);
+        // Save username so profile can display it without JWT decoding
+        localStorage.setItem('username', this.username.trim());
         this.authService.isAuthenticated.set(true);
         this.success = 'Login successful! Redirecting...';
         

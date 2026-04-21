@@ -35,7 +35,7 @@ urlpatterns = [
     path('login/', LoginAPIView.as_view()),
     path('subjects/', get_subjects, name='Subjects'),
     path('professors/', get_professors, name='Professors'),
-    path('subjects/<int:pk>/', get_subject, name='Subject'),
+    path('subjects/<int:subj_id>/', get_subject, name='Subject'),
     path('professors/<int:prof_id>/reviews/', get_reviews_by_professor, name='Reviews of professor'),
     path('reviews/', ReviewAPIView.as_view(), name='Reviews'),
     path('reviews/<int:pk>/', ReviewDetailAPIView.as_view(), name='Review detailed'),
