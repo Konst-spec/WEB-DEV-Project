@@ -16,7 +16,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from ProfAPI.views import get_reviews_by_professor
+from ProfAPI.views import get_professor, get_reviews_by_professor
 from rest_framework_simplejwt.views import TokenRefreshView
 from ProfAPI.views import (
     get_reviews_by_professor,
@@ -38,5 +38,7 @@ urlpatterns = [
     path('subjects/<int:pk>/', get_subject, name='Subject'),
     path('professors/<int:prof_id>/reviews/', get_reviews_by_professor, name='Reviews of professor'),
     path('reviews/', ReviewAPIView.as_view(), name='Reviews'),
-    path('reviews/<int:pk>/', ReviewDetailAPIView.as_view(), name='Review detailed')
+    path('reviews/<int:pk>/', ReviewDetailAPIView.as_view(), name='Review detailed'),
+    path('professors/<int:prof_id>/', get_professor, name='Professor'),
+
 ]

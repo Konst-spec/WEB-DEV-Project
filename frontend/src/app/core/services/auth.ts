@@ -42,4 +42,7 @@ export class AuthService {
       this.isAuthenticated.set(false);
       this.router.navigate(['/login']);
     }
+  refreshToken(refresh: string) {
+    return this.http.post<AuthResponse>(`${this.apiUrl}refresh/`, { refresh });
+  }
 }

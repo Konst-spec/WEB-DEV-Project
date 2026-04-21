@@ -1,0 +1,182 @@
+.page {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 48px 24px 80px;
+}
+
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 28px;
+  font-size: 0.875rem;
+}
+
+.breadcrumb-link {
+  color: #6366f1;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.breadcrumb-link:hover { text-decoration: underline; }
+
+.breadcrumb-sep { color: #cbd5e1; }
+
+.breadcrumb-current {
+  color: #94a3b8;
+  font-weight: 500;
+}
+
+.subject-header {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 28px 32px;
+  background: #fff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 20px;
+  margin-bottom: 40px;
+}
+
+.subject-icon {
+  font-size: 2.4rem;
+  line-height: 1;
+  flex-shrink: 0;
+}
+
+.subject-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #0f172a;
+  margin: 0 0 6px;
+}
+
+.subject-meta {
+  font-size: 0.9rem;
+  color: #64748b;
+  margin: 0;
+}
+
+.section-title {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 16px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  font-size: 0.8rem;
+  color: #94a3b8;
+}
+
+.professors-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+  gap: 12px;
+}
+
+.prof-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 22px;
+  background: #fff;
+  border: 1.5px solid #e2e8f0;
+  border-radius: 16px;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.2s, transform 0.2s, border-color 0.2s;
+}
+
+.prof-card:hover {
+  box-shadow: 0 8px 24px rgba(99,102,241,0.10);
+  transform: translateY(-2px);
+  border-color: #c7d2fe;
+}
+
+.prof-avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.prof-info {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.prof-name {
+  font-weight: 700;
+  font-size: 0.95rem;
+  color: #1e293b;
+}
+
+.prof-hint {
+  font-size: 0.78rem;
+  color: #6366f1;
+  font-weight: 500;
+}
+
+.skeleton-header {
+  height: 120px;
+  border-radius: 20px;
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+  margin-bottom: 40px;
+}
+
+.skeleton-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.skeleton--card {
+  height: 84px;
+  border-radius: 16px;
+  background: linear-gradient(90deg, #f1f5f9 25%, #e2e8f0 50%, #f1f5f9 75%);
+  background-size: 200% 100%;
+  animation: shimmer 1.4s infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 80px 24px;
+  color: #64748b;
+  text-align: center;
+}
+
+.empty span { font-size: 2.5rem; }
+.empty p { margin: 0; font-size: 1rem; }
+
+.btn-back {
+  color: #6366f1;
+  font-weight: 600;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.btn-back:hover { text-decoration: underline; }
+
+@media (max-width: 640px) {
+  .subject-header { padding: 20px; gap: 14px; }
+  .subject-title { font-size: 1.4rem; }
+  .professors-grid { grid-template-columns: 1fr; }
+}

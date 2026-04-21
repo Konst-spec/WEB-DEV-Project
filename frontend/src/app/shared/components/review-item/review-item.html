@@ -1,1 +1,32 @@
-<p>review-item works!</p>
+<div class="review" [class]="'review--' + ratingClass">
+  <div class="review-header">
+    <div class="review-author">
+      <div class="author-avatar" [class]="'avatar--' + ratingClass">
+        {{ review.is_anounimous ? '?' : '#' + review.user }}
+      </div>
+      <div>
+        <span class="author-name">
+          {{ review.is_anounimous ? 'Anonymous' : 'Student #' + review.user }}
+        </span>
+        <span class="review-date">{{ formattedDate }}</span>
+      </div>
+    </div>
+    <div class="review-scores">
+      <div class="score">
+        <span class="score-label">Rating</span>
+        <div class="stars">
+          @for (star of stars; track star) {
+            <span class="star" [class.filled]="star <= review.rating">★</span>
+          }
+        </div>
+      </div>
+      <div class="score">
+        <span class="score-label">Difficulty</span>
+        <span class="difficulty-badge" [class]="'diff--' + (review.difficulty >= 4 ? 'hard' : review.difficulty <= 2 ? 'easy' : 'mid')">
+          {{ review.difficulty }}/5
+        </span>
+      </div>
+    </div>
+  </div>
+  <p class="review-text">{{ review.text }}</p>
+</div>

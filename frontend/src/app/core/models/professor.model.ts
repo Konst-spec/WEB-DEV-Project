@@ -1,9 +1,8 @@
 import { Subject } from "./subject.model";
 
 export interface Professor {
-    id: number;
+    prof_id: number;
     name: string;
-    surname: string;
-    rating: number;
-    subjects: Subject[];
+    description: string;
+    subjects: number[];
 }

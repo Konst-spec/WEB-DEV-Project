@@ -1,1 +1,48 @@
-<p>subject-detail works!</p>
+@if (loading()) {
+  <div class="container">
+    <div class="skeleton-header"></div>
+    <div class="skeleton-grid">
+      @for (i of [1,2,3,4]; track i) {
+        <div class="skeleton-card"></div>
+      }
+    </div>
+  </div>
+} @else if (error() || !subject()) {
+  <div class="container error-state">
+    <p>Subject not found.</p>
+    <a routerLink="/subjects">← Back to subjects</a>
+  </div>
+} @else {
+  <div class="container">
+    <a routerLink="/subjects" class="back-link">← All Subjects</a>
+
+    <div class="subject-header">
+      <h1 class="subject-name">{{ subject()!.name }}</h1>
+      <span class="prof-count">{{ subject()!.professors.length }} professors</span>
+    </div>
+
+    <h2 class="section-title">Professors teaching this subject</h2>
+
+    @if (subject()!.professors.length === 0) {
+      <p class="empty">No professors assigned yet.</p>
+    } @else {
+      <div class="professors-list">
+        @for (prof of subject()!.professors; track prof.id) {
+          <div class="prof-row">
+            <a [routerLink]="['/professors', prof.id]" class="prof-link">
+              <div class="avatar">{{ prof.name[0] }}</div>
+              <span class="prof-name">{{ prof.name }}</span>
+            </a>
+            <button
+              class="wishlist-btn"
+              [class.active]="isWishlisted(prof.id)"
+              (click)="toggleWishlist(prof.id)"
+            >
+              {{ isWishlisted(prof.id) ? '★ Wishlisted' : '☆ Add to Wishlist' }}
+            </button>
+          </div>
+        }
+      </div>
+    }
+  </div>
+}

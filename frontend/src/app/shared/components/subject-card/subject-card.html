@@ -1,1 +1,6 @@
-<p>subject-card works!</p>
+<a [routerLink]="['/subjects', subject.subj_id]" class="subject-card">
+  <div class="card-accent"></div>
+  <h3 class="card-title">{{ subject.name }}</h3>
+  <p class="card-desc">{{ subject.description }}</p>
+  <span class="card-link">View professors →</span>
+</a>

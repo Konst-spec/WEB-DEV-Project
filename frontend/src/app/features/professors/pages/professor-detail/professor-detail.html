@@ -1,1 +1,131 @@
-<p>professor-detail works!</p>
+<div class="page">
+
+  @if (loadingProf()) {
+    <div class="prof-header skeleton-header"></div>
+  } @else if (professor()) {
+
+    <!-- Header -->
+    <div class="prof-header">
+      <div class="prof-avatar">{{ professor()!.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) }}</div>
+      <div class="prof-info">
+        <h1 class="prof-name">{{ professor()!.name }}</h1>
+        <p class="prof-desc">{{ professor()!.description }}</p>
+        <div class="prof-subjects">
+          @for (s of subjects(); track s.subj_id) {
+            <span class="subject-badge">{{ s.name }}</span>
+          }
+        </div>
+      </div>
+      <div class="prof-stats">
+        <div class="stat-box">
+          <span class="stat-val">{{ avgRating }}</span>
+          <span class="stat-lbl">Avg Rating</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-val">{{ avgDifficulty }}</span>
+          <span class="stat-lbl">Avg Difficulty</span>
+        </div>
+        <div class="stat-box">
+          <span class="stat-val">{{ reviews().length }}</span>
+          <span class="stat-lbl">Reviews</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reviews Section -->
+    <div class="reviews-section">
+      <div class="reviews-toolbar">
+        <div class="filter-tabs">
+          <button class="tab" [class.active]="filter() === 'all'" (click)="setFilter('all')">All</button>
+          <button class="tab tab--positive" [class.active]="filter() === 'positive'" (click)="setFilter('positive')">👍 Positive</button>
+          <button class="tab tab--negative" [class.active]="filter() === 'negative'" (click)="setFilter('negative')">👎 Negative</button>
+        </div>
+        <button class="btn-add" (click)="showForm.set(!showForm())">
+          {{ showForm() ? '✕ Cancel' : '+ Write Review' }}
+        </button>
+      </div>
+
+      <!-- Review Form -->
+      @if (showForm()) {
+        <div class="review-form">
+          <h3 class="form-title">Your Review</h3>
+
+          <div class="form-group">
+            <label class="form-label">Subject</label>
+            <select class="form-select" [(ngModel)]="form.subj_id">
+              <option [value]="0" disabled>Select subject...</option>
+              @for (s of subjects(); track s.subj_id) {
+                <option [value]="s.subj_id">{{ s.name }}</option>
+              }
+            </select>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Rating: {{ form.rating }}/5</label>
+              <input type="range" min="1" max="5" step="0.5" [(ngModel)]="form.rating" class="form-range" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Difficulty: {{ form.difficulty }}/5</label>
+              <input type="range" min="1" max="5" step="0.5" [(ngModel)]="form.difficulty" class="form-range" />
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="form-label">Your experience</label>
+            <textarea
+              class="form-textarea"
+              rows="4"
+              placeholder="Share your experience with this professor..."
+              [(ngModel)]="form.text"
+            ></textarea>
+          </div>
+
+          <div class="form-footer">
+            <label class="checkbox-label">
+              <input type="checkbox" [(ngModel)]="form.is_anounimous" />
+              Post anonymously
+            </label>
+            @if (submitError()) {
+              <span class="form-error">{{ submitError() }}</span>
+            }
+            <button class="btn-submit" (click)="submitReview()" [disabled]="submitting()">
+              {{ submitting() ? 'Posting...' : 'Post Review' }}
+            </button>
+          </div>
+        </div>
+      }
+
+      @if (submitSuccess()) {
+        <div class="success-banner">✅ Review posted successfully!</div>
+      }
+
+      <!-- Reviews List -->
+      @if (loadingReviews()) {
+        <div class="reviews-list">
+          @for (i of [1,2,3]; track i) {
+            <div class="skeleton skeleton--review"></div>
+          }
+        </div>
+      } @else if (reviews().length === 0) {
+        <div class="empty">
+          <span>📭</span>
+          <p>No reviews yet. Be the first!</p>
+        </div>
+      } @else {
+        <div class="reviews-list">
+          @for (review of reviews(); track review.rev_id) {
+            <app-review-item [review]="review" />
+          }
+        </div>
+      }
+    </div>
+
+  } @else {
+    <div class="empty">
+      <span>😕</span>
+      <p>Professor not found.</p>
+    </div>
+  }
+
+</div>

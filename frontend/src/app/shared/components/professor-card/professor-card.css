@@ -1,0 +1,58 @@
+.professor-card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 20px 24px;
+  border: 1px solid #e2e8f0;
+  border-radius: 16px;
+  background: #fff;
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.professor-card:hover {
+  box-shadow: 0 8px 32px rgba(99,102,241,0.10);
+  transform: translateY(-3px);
+}
+
+.avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #6366f1, #818cf8);
+  color: #fff;
+  font-weight: 700;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.card-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.card-name {
+  font-size: 1rem;
+  font-weight: 700;
+  color: #1e293b;
+  margin: 0 0 4px;
+}
+
+.card-desc {
+  font-size: 0.8rem;
+  color: #64748b;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.card-arrow {
+  color: #6366f1;
+  font-size: 1.1rem;
+  flex-shrink: 0;
+}

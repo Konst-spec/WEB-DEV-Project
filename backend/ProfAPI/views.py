@@ -28,6 +28,14 @@ def get_professors(request):
     return Response(serializer.data)
 
 @api_view(['GET'])
+def get_professor(request, prof_id):
+    professor = Professor.objects.filter(prof_id=prof_id).first()
+    if not professor:
+        return Response({"error": "Not found"}, status=404)
+    serializer = ProfessorSerializer(professor)
+    return Response(serializer.data)
+
+@api_view(['GET'])
 def get_subject(request, subj_id):
     subject = Subject.objects.filter(subj_id=subj_id).first()
     if not subject:

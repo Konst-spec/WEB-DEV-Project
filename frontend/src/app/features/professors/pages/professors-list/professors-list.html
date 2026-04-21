@@ -1,1 +1,51 @@
-<p>professors-list works!</p>
+<div class="page">
+
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Professors</h1>
+      <p class="page-sub">Find a professor and read student reviews</p>
+    </div>
+    <span class="page-count">
+      @if (!loading()) { {{ filtered().length }} found }
+    </span>
+  </div>
+
+  <div class="search-wrap">
+    <span class="search-icon">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+    </span>
+    <input
+      class="search-input"
+      type="text"
+      placeholder="Search by name..."
+      [ngModel]="searchQuery()"
+      (ngModelChange)="searchQuery.set($event)"
+    />
+    @if (searchQuery()) {
+      <button class="search-clear" (click)="searchQuery.set('')">✕</button>
+    }
+  </div>
+
+  @if (loading()) {
+    <div class="list">
+      @for (i of [1,2,3,4,5,6]; track i) {
+        <div class="skeleton"></div>
+      }
+    </div>
+  } @else if (filtered().length === 0) {
+    <div class="empty">
+      <span class="empty-icon">🔍</span>
+      <p>No professors found for <strong>"{{ searchQuery() }}"</strong></p>
+      <button class="btn-reset" (click)="searchQuery.set('')">Clear search</button>
+    </div>
+  } @else {
+    <div class="list">
+      @for (professor of filtered(); track professor.prof_id) {
+        <app-professor-card [professor]="professor" />
+      }
+    </div>
+  }
+
+</div>

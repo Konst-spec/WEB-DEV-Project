@@ -1,11 +1,137 @@
-import { Component } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
+import { ProfessorService } from '../../../../core/services/professor';
+import { ReviewService } from '../../../../core/services/review';
+import { Professor } from '../../../../core/models/professor.model';
+import { Review, CreateReviewRequest } from '../../../../core/models/review.model';
+import { ReviewItem } from '../../../../shared/components/review-item/review-item';
+import { Subject } from '../../../../core/models/subject.model';
+import { SubjectService } from '../../../../core/services/subject';
+
+type FilterType = 'all' | 'positive' | 'negative';
 
 @Component({
   selector: 'app-professor-detail',
-  imports: [],
+  standalone: true,
+  imports: [CommonModule, FormsModule, ReviewItem],
   templateUrl: './professor-detail.html',
-  styleUrl: './professor-detail.css',
+  styleUrl: './professor-detail.css'
 })
-export class ProfessorDetail {
+export class ProfessorDetail implements OnInit {
+  private route = inject(ActivatedRoute);
+  private professorService = inject(ProfessorService);
+  private reviewService = inject(ReviewService);
+  private subjectService = inject(SubjectService);
 
+  professor = signal<Professor | null>(null);
+  reviews = signal<Review[]>([]);
+  subjects = signal<Subject[]>([]);
+
+  loadingProf = signal(true);
+  loadingReviews = signal(true);
+  filter = signal<FilterType>('all');
+
+  showForm = signal(false);
+  submitting = signal(false);
+  submitError = signal('');
+  submitSuccess = signal(false);
+
+  form = {
+    subj_id: 0,
+    rating: 5,
+    difficulty: 3,
+    text: '',
+    is_anounimous: false
+  };
+
+  get avgRating(): string {
+    const r = this.reviews();
+    if (!r.length) return '—';
+    return (r.reduce((s, x) => s + x.rating, 0) / r.length).toFixed(1);
+  }
+
+  get avgDifficulty(): string {
+    const r = this.reviews();
+    if (!r.length) return '—';
+    return (r.reduce((s, x) => s + x.difficulty, 0) / r.length).toFixed(1);
+  }
+
+  ngOnInit(): void {
+    const id = Number(this.route.snapshot.paramMap.get('id'));
+
+    this.professorService.getAll().subscribe({
+      next: (data) => {
+        this.professor.set(data.find(p => p.prof_id === id) ?? null);
+        this.loadingProf.set(false);
+
+        const prof = this.professor();
+        if (prof?.subjects?.length) {
+          const loaded: Subject[] = [];
+          prof.subjects.forEach(subjId => {
+            this.subjectService.getById(subjId).subscribe({
+              next: (s) => {
+                loaded.push(s);
+                this.subjects.set([...loaded]);
+              }
+            });
+          });
+        }
+      },
+      error: () => this.loadingProf.set(false)
+    });
+
+    this.loadReviews(id);
+  }
+
+  loadReviews(profId: number, type?: 'positive' | 'negative'): void {
+    this.loadingReviews.set(true);
+    this.reviewService.getByProfessor(profId, type).subscribe({
+      next: (data) => { this.reviews.set(data); this.loadingReviews.set(false); },
+      error: () => this.loadingReviews.set(false)
+    });
+  }
+
+  setFilter(f: FilterType): void {
+    this.filter.set(f);
+    const profId = Number(this.route.snapshot.paramMap.get('id'));
+    this.loadReviews(profId, f === 'all' ? undefined : f);
+  }
+
+  submitReview(): void {
+    if (!this.form.subj_id) { this.submitError.set('Please select a subject'); return; }
+    if (!this.form.text.trim()) { this.submitError.set('Please write your review'); return; }
+
+    this.submitting.set(true);
+    this.submitError.set('');
+
+    const profId = Number(this.route.snapshot.paramMap.get('id'));
+    const payload: CreateReviewRequest = {
+      prof_id: profId,
+      subj_id: this.form.subj_id,
+      rating: this.form.rating,
+      difficulty: this.form.difficulty,
+      text: this.form.text,
+      is_anounimous: this.form.is_anounimous
+    };
+
+    this.reviewService.create(payload).subscribe({
+      next: () => {
+        this.submitSuccess.set(true);
+        this.showForm.set(false);
+        this.submitting.set(false);
+        this.form = { subj_id: 0, rating: 5, difficulty: 3, text: '', is_anounimous: false };
+        this.loadReviews(profId);
+      },
+      error: (err) => {
+        this.submitting.set(false);
+        if (err.status === 400) {
+          this.submitError.set(err.error?.non_field_errors?.[0] ?? 'Invalid data');
+        } else {
+          this.submitError.set('Something went wrong. Try again.');
+        }
+      }
+    });
+  }
 }

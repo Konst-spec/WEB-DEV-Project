@@ -1,1 +1,65 @@
-<p>home-page works!</p>
+<div class="home">
+
+  <section class="hero">
+    <div class="hero-content">
+      <span class="hero-badge">KBTU Student Platform</span>
+      <h1 class="hero-title">Find the right<br><span class="hero-accent">professor</span> for you</h1>
+      <p class="hero-sub">Read honest reviews from students, rate difficulty, and build your personal wishlist of professors.</p>
+      <div class="hero-actions">
+        <a routerLink="/subjects" class="btn btn-primary">Browse Subjects</a>
+        <a routerLink="/professors" class="btn btn-secondary">All Professors</a>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="blob"></div>
+      <div class="stats-card">
+        <div class="stat"><span class="stat-num">100+</span><span class="stat-label">Reviews</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">20+</span><span class="stat-label">Professors</span></div>
+        <div class="stat-divider"></div>
+        <div class="stat"><span class="stat-num">15+</span><span class="stat-label">Subjects</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <h2 class="section-title">Subjects</h2>
+      <a routerLink="/subjects" class="section-link">See all →</a>
+    </div>
+    @if (loadingSubjects()) {
+      <div class="grid skeleton-grid">
+        @for (i of [1,2,3,4,5,6]; track i) {
+          <div class="skeleton-card"></div>
+        }
+      </div>
+    } @else {
+      <div class="grid">
+        @for (subject of subjects(); track subject.subj_id) {
+          <app-subject-card [subject]="subject" />
+        }
+      </div>
+    }
+  </section>
+
+  <section class="section">
+    <div class="section-header">
+      <h2 class="section-title">Professors</h2>
+      <a routerLink="/professors" class="section-link">See all →</a>
+    </div>
+    @if (loadingProfessors()) {
+      <div class="list skeleton-list">
+        @for (i of [1,2,3,4]; track i) {
+          <div class="skeleton-card skeleton-card--list"></div>
+        }
+      </div>
+    } @else {
+      <div class="list">
+        @for (professor of professors(); track professor.prof_id) {
+          <app-professor-card [professor]="professor" />
+        }
+      </div>
+    }
+  </section>
+
+</div>

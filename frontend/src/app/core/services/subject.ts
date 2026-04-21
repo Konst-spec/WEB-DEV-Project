@@ -1,21 +1,20 @@
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Subject } from '../models/subject.model';
 
-@Injectable({
-  providedIn: 'root',
+@Injectable({ 
+  providedIn: 'root' 
 })
 export class SubjectService {
-  private apiUrl = 'http://localhost:8000/subjects/';
   private http = inject(HttpClient);
-  
-  getSubjects(): Observable<Subject[]> {
-    return this.http.get<Subject[]>(this.apiUrl);
+  private apiUrl = 'http://localhost:8000';
+
+  getAll(): Observable<Subject[]> {
+    return this.http.get<Subject[]>(`${this.apiUrl}/subjects/`);
   }
-  
-  getSubjectById(id: number): Observable<Subject> {
-    return this.http.get<Subject>(`${this.apiUrl}${id}/`);
+
+  getById(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/subjects/${id}/`);
   }
-  
 }
