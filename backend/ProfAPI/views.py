@@ -107,15 +107,17 @@ class ReviewDetailAPIView(APIView):
         return Response(serializer.data)
     
     def put(self, request, pk):
-        user = request.user
         review = self.get_object(pk)
         if not review:
             return Response({"error": "Review not found"}, status=status.HTTP_404_NOT_FOUND)
-        serializer = ReviewSerializer(review, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        
+        review.rating = request.data.get('rating', review.rating)
+        review.difficulty = request.data.get('difficulty', review.difficulty)
+        review.text = request.data.get('text', review.text)
+        review.save()
+        
+        serializer = ReviewSerializer(review)
+        return Response(serializer.data)
     
     def delete(self, request, pk):
         user = request.user
