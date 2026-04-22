@@ -63,5 +63,17 @@ class Review(models.Model):
     objects = ReviewManager()
 
 
+class WishlistItem(models.Model):
+    id = models.AutoField(primary_key=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='wishlist')
+    professor = models.ForeignKey(Professor, on_delete=models.CASCADE, related_name='wishlisted_by')
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE, related_name='wishlisted_for')
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'professor', 'subject')
+
+    def __str__(self):
+        return f"{self.user.username} → {self.professor.name} ({self.subject.name})"
 
 

@@ -2,13 +2,15 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
 import { ProfessorService } from '../../../../core/services/professor';
 import { ReviewService } from '../../../../core/services/review';
+import { WishlistService } from '../../../../core/services/wishlist';
+import { AuthService } from '../../../../core/services/auth';
 import { Professor } from '../../../../core/models/professor.model';
 import { Review, CreateReviewRequest } from '../../../../core/models/review.model';
 import { ReviewItem } from '../../../../shared/components/review-item/review-item';
 import { Subject } from '../../../../core/models/subject.model';
-import { SubjectService } from '../../../../core/services/subject';
 
 type FilterType = 'all' | 'positive' | 'negative';
 
@@ -21,9 +23,11 @@ type FilterType = 'all' | 'positive' | 'negative';
 })
 export class ProfessorDetail implements OnInit {
   private route = inject(ActivatedRoute);
+  private http = inject(HttpClient);
   private professorService = inject(ProfessorService);
   private reviewService = inject(ReviewService);
-  private subjectService = inject(SubjectService);
+  private wishlistService = inject(WishlistService);
+  private authService = inject(AuthService);
 
   professor = signal<Professor | null>(null);
   reviews = signal<Review[]>([]);
@@ -45,6 +49,11 @@ export class ProfessorDetail implements OnInit {
     text: '',
     is_anounimous: false
   };
+
+  // Wishlist
+  wishlistMessage = signal('');
+  wishlistError = signal('');
+  isLoggedIn = this.authService.isAuthenticated;
 
   get avgRating(): string {
     const r = this.reviews();
@@ -70,9 +79,10 @@ export class ProfessorDetail implements OnInit {
         if (prof?.subjects?.length) {
           const loaded: Subject[] = [];
           prof.subjects.forEach(subjId => {
-            this.subjectService.getById(subjId).subscribe({
+            this.http.get<any>(`http://localhost:8000/subjects/${subjId}/`).subscribe({
               next: (s) => {
-                loaded.push(s);
+                // API returns { id, name, ... } but Subject uses subj_id
+                loaded.push({ subj_id: s.id ?? s.subj_id, name: s.name, description: s.description });
                 this.subjects.set([...loaded]);
               }
             });
@@ -131,6 +141,36 @@ export class ProfessorDetail implements OnInit {
         } else {
           this.submitError.set('Something went wrong. Try again.');
         }
+      }
+    });
+  }
+
+  addToWishlist(subjId: number): void {
+    const profId = Number(this.route.snapshot.paramMap.get('id'));
+    this.wishlistMessage.set('');
+    this.wishlistError.set('');
+
+    if (!subjId) {
+      this.wishlistError.set('Subject not loaded yet. Try again.');
+      setTimeout(() => this.wishlistError.set(''), 3000);
+      return;
+    }
+
+    this.wishlistService.add(profId, subjId).subscribe({
+      next: () => {
+        this.wishlistMessage.set('Added to wishlist!');
+        setTimeout(() => this.wishlistMessage.set(''), 3000);
+      },
+      error: (err) => {
+        console.error('Wishlist error:', err);
+        if (err.status === 400) {
+          this.wishlistError.set(err.error?.error ?? 'Already in wishlist');
+        } else if (err.status === 401 || err.status === 403) {
+          this.wishlistError.set('Please log in to use wishlist.');
+        } else {
+          this.wishlistError.set('Something went wrong. Try again.');
+        }
+        setTimeout(() => this.wishlistError.set(''), 4000);
       }
     });
   }

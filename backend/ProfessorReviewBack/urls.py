@@ -24,6 +24,7 @@ from ProfAPI.views import (
     LoginAPIView,
     ReviewAPIView,
     ReviewDetailAPIView,
+    WishlistAPIView,
     get_subjects,
     get_professors,
     get_subject,
@@ -40,5 +41,5 @@ urlpatterns = [
     path('reviews/', ReviewAPIView.as_view(), name='Reviews'),
     path('reviews/<int:pk>/', ReviewDetailAPIView.as_view(), name='Review detailed'),
     path('professors/<int:prof_id>/', get_professor, name='Professor'),
-
+    path('wishlist/', WishlistAPIView.as_view(), name='Wishlist'),
 ]

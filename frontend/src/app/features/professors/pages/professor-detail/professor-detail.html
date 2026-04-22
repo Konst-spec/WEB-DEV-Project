@@ -12,7 +12,14 @@
         <p class="prof-desc">{{ professor()!.description }}</p>
         <div class="prof-subjects">
           @for (s of subjects(); track s.subj_id) {
-            <span class="subject-badge">{{ s.name }}</span>
+            <div class="subject-badge-group">
+              <span class="subject-badge">{{ s.name }}</span>
+              @if (isLoggedIn()) {
+                <button class="btn-wish" (click)="addToWishlist(s.subj_id)" title="Add to Wishlist for {{ s.name }}">
+                  ♡ Wishlist
+                </button>
+              }
+            </div>
           }
         </div>
       </div>
@@ -31,6 +38,13 @@
         </div>
       </div>
     </div>
+
+    @if (wishlistMessage()) {
+      <div class="wishlist-banner wishlist-banner--success">✅ {{ wishlistMessage() }}</div>
+    }
+    @if (wishlistError()) {
+      <div class="wishlist-banner wishlist-banner--error">⚠️ {{ wishlistError() }}</div>
+    }
 
     <!-- Reviews Section -->
     <div class="reviews-section">

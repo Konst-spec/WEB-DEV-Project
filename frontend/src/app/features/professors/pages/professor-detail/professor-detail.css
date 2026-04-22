@@ -59,13 +59,62 @@
   gap: 6px;
 }
 
-.subject-badge {
+.subject-badge-group {
+  display: inline-flex;
+  align-items: stretch;
   background: #eef2ff;
+  border-radius: 999px;
+  overflow: hidden;
+  border: 1px solid #c7d2fe;
+}
+
+.subject-badge {
+  display: flex;
+  align-items: center;
+  background: transparent;
   color: #6366f1;
   font-size: 0.75rem;
   font-weight: 600;
+  padding: 4px 10px 4px 12px;
+  border-radius: 0;
+}
+
+.btn-wish {
+  display: flex;
+  align-items: center;
+  justify-content: center;
   padding: 4px 12px;
-  border-radius: 999px;
+  background: white;
+  border: none;
+  border-left: 1px solid #c7d2fe;
+  color: #ec4899;
+  font-size: 0.7rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+
+.btn-wish:hover {
+  background: #fdf2f8;
+}
+
+.wishlist-banner {
+  padding: 12px 20px;
+  border-radius: 12px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin-bottom: 20px;
+}
+
+.wishlist-banner--success {
+  background: #dcfce7;
+  color: #16a34a;
+}
+
+.wishlist-banner--error {
+  background: #fee2e2;
+  color: #dc2626;
 }
 
 .prof-stats {

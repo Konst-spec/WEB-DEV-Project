@@ -1,5 +1,23 @@
 from rest_framework import serializers
-from .models import Professor, User, Review, Subject
+from .models import Professor, User, Review, Subject, WishlistItem
+
+class WishlistSerializer(serializers.ModelSerializer):
+    professor_name = serializers.CharField(source='professor.name', read_only=True)
+    subject_name = serializers.CharField(source='subject.name', read_only=True)
+    professor_rating = serializers.SerializerMethodField()
+
+    class Meta:
+        model = WishlistItem
+        fields = ['id', 'professor', 'subject', 'professor_name', 'subject_name', 'professor_rating', 'added_at']
+        read_only_fields = ['id', 'added_at']
+
+    def get_professor_rating(self, obj):
+        reviews = obj.professor.reviews.all()
+        if reviews.exists():
+            avg = sum(r.rating for r in reviews) / reviews.count()
+            return round(avg, 1)
+        return None
+
 
 class ProfessorSerializer(serializers.ModelSerializer):
     class Meta:

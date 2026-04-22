@@ -5,14 +5,15 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated
-from .models import Subject, Professor, Review
+from .models import Subject, Professor, Review, WishlistItem
 from .serializers import (
     SubjectSerializer,
     ProfessorSerializer,
     ReviewSerializer,
     CreateReviewSerializer,
     LoginSerializer,
-    RegisterSerializer
+    RegisterSerializer,
+    WishlistSerializer
 )
 # Create your views here.
 @api_view(['GET'])
@@ -146,3 +147,41 @@ class RegisterAPIView(APIView):
             "access": str(refresh.access_token),
             "refresh": str(refresh)
         }, status=status.HTTP_201_CREATED)
+
+class WishlistAPIView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        items = WishlistItem.objects.filter(user=request.user).select_related('professor', 'subject')
+        serializer = WishlistSerializer(items, many=True)
+        return Response(serializer.data)
+
+    def post(self, request):
+        prof_id = request.data.get('professor')
+        subj_id = request.data.get('subject')
+
+        if not prof_id or not subj_id:
+            return Response({"error": "professor and subject are required"}, status=status.HTTP_400_BAD_REQUEST)
+
+        prof = Professor.objects.filter(prof_id=prof_id).first()
+        subj = Subject.objects.filter(subj_id=subj_id).first()
+
+        if not prof or not subj:
+            return Response({"error": "Professor or Subject not found"}, status=status.HTTP_404_NOT_FOUND)
+
+        if WishlistItem.objects.filter(user=request.user, professor=prof, subject=subj).exists():
+            return Response({"error": "Already in wishlist"}, status=status.HTTP_400_BAD_REQUEST)
+
+        item = WishlistItem.objects.create(user=request.user, professor=prof, subject=subj)
+        serializer = WishlistSerializer(item)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+    def delete(self, request):
+        item_id = request.query_params.get('id')
+        if not item_id:
+            return Response({"error": "id is required"}, status=status.HTTP_400_BAD_REQUEST)
+        item = WishlistItem.objects.filter(id=item_id, user=request.user).first()
+        if not item:
+            return Response({"error": "Not found"}, status=status.HTTP_404_NOT_FOUND)
+        item.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
