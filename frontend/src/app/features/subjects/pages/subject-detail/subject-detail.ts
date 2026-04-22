@@ -1,6 +1,6 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 import { SubjectService } from '../../../../core/services/subject';
 import { SubjectDetail } from '../../../../core/models/subject.model';
 
@@ -13,19 +13,19 @@ import { SubjectDetail } from '../../../../core/models/subject.model';
 })
 export class SubjectDetailPage implements OnInit {
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private subjectService = inject(SubjectService);
 
   subject = signal<SubjectDetail | null>(null);
   loading = signal(true);
-  notFound = signal(false);
 
   ngOnInit(): void {
     const id = Number(this.route.snapshot.paramMap.get('id'));
     this.subjectService.getById(id).subscribe({
       next: (data: SubjectDetail | null) => { this.subject.set(data); this.loading.set(false); },
-      error: (err: { status: number; }) => {
+      error: () => {
         this.loading.set(false);
-        if (err.status === 404) this.notFound.set(true);
+        this.router.navigate(['/404']);
       }
     });
   }

@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { ProfessorService } from '../../../../core/services/professor';
 import { ReviewService } from '../../../../core/services/review';
@@ -23,6 +23,7 @@ type FilterType = 'all' | 'positive' | 'negative';
 })
 export class ProfessorDetail implements OnInit {
   private route = inject(ActivatedRoute);
+  private router = inject(Router);
   private http = inject(HttpClient);
   private professorService = inject(ProfessorService);
   private reviewService = inject(ReviewService);
@@ -72,7 +73,13 @@ export class ProfessorDetail implements OnInit {
 
     this.professorService.getAll().subscribe({
       next: (data) => {
-        this.professor.set(data.find(p => p.prof_id === id) ?? null);
+        const found = data.find(p => p.prof_id === id);
+        if (!found) {
+          this.router.navigate(['/404']);
+          return;
+        }
+
+        this.professor.set(found);
         this.loadingProf.set(false);
 
         const prof = this.professor();
