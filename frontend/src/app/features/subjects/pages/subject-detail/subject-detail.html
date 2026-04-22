@@ -9,14 +9,12 @@
   </div>
 
   } @else if (subject()) {
-  <!-- Breadcrumb -->
   <div class="breadcrumb">
     <a routerLink="/subjects" class="breadcrumb-link">Subjects</a>
-    <span class="breadcrumb-sep">›</span>
+    <span class="breadcrumb-sep"></span>
     <span class="breadcrumb-current">{{ subject()!.name }}</span>
   </div>
 
-  <!-- Subject Header -->
   <div class="subject-header">
     <div class="subject-icon">📚</div>
     <div class="subject-info-container">
@@ -27,7 +25,6 @@
     </div>
   </div>
 
-  <!-- Professors -->
   @if (subject()!.professors.length === 0) {
   <div class="empty">
     <span>👨‍🏫</span>

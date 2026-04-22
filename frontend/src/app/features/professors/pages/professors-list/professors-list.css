@@ -1,7 +1,7 @@
 .page {
   max-width: 900px;
   margin: 0 auto;
-  padding: 48px 24px 80px;
+  padding: 80px 24px 80px;
 }
 
 .page-header {
@@ -31,7 +31,6 @@
   padding-bottom: 4px;
 }
 
-/* Search */
 .search-wrap {
   position: relative;
   margin-bottom: 28px;
@@ -89,14 +88,12 @@
   color: #475569;
 }
 
-/* List */
 .list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
   gap: 12px;
 }
 
-/* Skeleton */
 .skeleton {
   height: 88px;
   border-radius: 16px;
@@ -110,7 +107,6 @@
   100% { background-position: -200% 0; }
 }
 
-/* Empty state */
 .empty {
   display: flex;
   flex-direction: column;
@@ -148,7 +144,6 @@
   background: #eef2ff;
 }
 
-/* Responsive */
 @media (max-width: 640px) {
   .page-header {
     flex-direction: column;

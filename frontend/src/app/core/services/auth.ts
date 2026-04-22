@@ -37,11 +37,11 @@ export class AuthService {
     localStorage.setItem(this.REFRESH_TOKEN_KEY, tokens.refresh);
   }
   logout(): void {
-      localStorage.removeItem(this.ACCESS_TOKEN_KEY);
-      localStorage.removeItem(this.REFRESH_TOKEN_KEY);
-      this.isAuthenticated.set(false);
-      this.router.navigate(['/login']);
-    }
+    localStorage.removeItem(this.ACCESS_TOKEN_KEY);
+    localStorage.removeItem(this.REFRESH_TOKEN_KEY);
+    this.isAuthenticated.set(false);
+    this.router.navigate(['/login']);
+  }
   refreshToken(refresh: string) {
     return this.http.post<AuthResponse>(`${this.apiUrl}refresh/`, { refresh });
   }

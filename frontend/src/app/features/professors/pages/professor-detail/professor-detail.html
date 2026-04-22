@@ -4,7 +4,6 @@
     <div class="prof-header skeleton-header"></div>
   } @else if (professor()) {
 
-    <!-- Header -->
     <div class="prof-header">
       <div class="prof-avatar">{{ professor()!.name.split(' ').map(w => w[0]).join('').toUpperCase().slice(0, 2) }}</div>
       <div class="prof-info">
@@ -46,7 +45,6 @@
       <div class="wishlist-banner wishlist-banner--error">⚠️ {{ wishlistError() }}</div>
     }
 
-    <!-- Reviews Section -->
     <div class="reviews-section">
       <div class="reviews-toolbar">
         <div class="filter-tabs">
@@ -59,7 +57,6 @@
         </button>
       </div>
 
-      <!-- Review Form -->
       @if (showForm()) {
         <div class="review-form">
           <h3 class="form-title">Your Review</h3>
@@ -114,7 +111,6 @@
         <div class="success-banner">✅ Review posted successfully!</div>
       }
 
-      <!-- Reviews List -->
       @if (loadingReviews()) {
         <div class="reviews-list">
           @for (i of [1,2,3]; track i) {

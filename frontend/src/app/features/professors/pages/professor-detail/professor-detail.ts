@@ -51,7 +51,6 @@ export class ProfessorDetail implements OnInit {
     is_anounimous: false
   };
 
-  // Wishlist
   wishlistMessage = signal('');
   wishlistError = signal('');
   isLoggedIn = this.authService.isAuthenticated;

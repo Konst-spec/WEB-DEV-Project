@@ -1,7 +1,7 @@
 .page {
   max-width: 900px;
   margin: 0 auto;
-  padding: 48px 24px 80px;
+  padding: 80px 24px 80px;
 }
 
 .prof-header {
@@ -149,7 +149,6 @@
   margin-top: 2px;
 }
 
-/* Toolbar */
 .reviews-toolbar {
   display: flex;
   align-items: center;
@@ -203,7 +202,6 @@
   transform: translateY(-1px);
 }
 
-/* Form */
 .review-form {
   background: #f8fafc;
   border: 1.5px solid #e2e8f0;
@@ -360,7 +358,6 @@
 .empty span { font-size: 2rem; }
 .empty p { margin: 0; }
 
-/* Responsive */
 @media (max-width: 640px) {
   .prof-header {
     grid-template-columns: auto 1fr;
