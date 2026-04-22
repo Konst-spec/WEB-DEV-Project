@@ -17,4 +17,12 @@ export class ReviewService {
   create(data: CreateReviewRequest): Observable<Review> {
     return this.http.post<Review>(`${this.apiUrl}/reviews/`, data);
   }
+
+  update(revId: number, data: { rating: number; difficulty: number; text: string }): Observable<Review> {
+    return this.http.put<Review>(`${this.apiUrl}/reviews/${revId}/`, data);
+  }
+
+  delete(revId: number): Observable<void> {
+    return this.http.delete<void>(`${this.apiUrl}/reviews/${revId}/`);
+  }
 }
