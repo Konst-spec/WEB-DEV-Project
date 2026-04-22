@@ -52,10 +52,13 @@ class LoginSerializer(serializers.Serializer):
         return data
 
 class CreateReviewSerializer(serializers.Serializer):
-    prof_id = serializers.IntegerField()
-    subj_id = serializers.IntegerField()
+    prof_id = serializers.IntegerField(write_only=True)
+    subj_id = serializers.IntegerField(write_only=True)
     rating = serializers.FloatField()
+    difficulty = serializers.FloatField(required=False, default=3.0)
     text = serializers.CharField()
+    is_anounimous = serializers.BooleanField(required=False, default=False)
+
     def validate(self, data):
         user = self.context['request'].user
 
@@ -72,6 +75,21 @@ class CreateReviewSerializer(serializers.Serializer):
             raise serializers.ValidationError("You already left a review")
 
         return data
+
+    def create(self, validated_data):
+        prof = Professor.objects.get(prof_id=validated_data['prof_id'])
+        subj = Subject.objects.get(subj_id=validated_data['subj_id'])
+        
+        review = Review.objects.create(
+            user=validated_data['user'],
+            professor=prof,
+            subject=subj,
+            rating=validated_data['rating'],
+            difficulty=validated_data.get('difficulty', 3.0),
+            text=validated_data['text'],
+            is_anounimous=validated_data.get('is_anounimous', False)
+        )
+        return review
 
 class RegisterSerializer(serializers.Serializer):
     username = serializers.CharField()
